@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+ <body> 
 <h2>GIB MONEY (BTC): 1MSpjD2kxzCGXtfFZbrYiA4h44fiR2TBXa<h2>
 
 <style>
@@ -39,14 +40,34 @@ body {
 <p>killing yourself lets you contemplate suicide faster when you reincarnate</p>
 </div>
 
+<br>
+<p>You have been killing yourself for: <span id ="yrscounter">0</span> years, <span id ="dyscounter">0</span> days, <span id ="hrscounter">0</span> hours, <span id ="mnscounter">0</span> minutes, and <span id ="scscounter">0</span> seconds...</p>
+<br>
+
+<button onclick="save()">save game</button>
+<button onclick="load()">load game</button>
+<button onclick="wipe()">wipe save</button>
+
+
+
+
+
+
 <script>
 var years = 0;
 var contemplates = 0;
 var suicides = 0;
 
+
+function prettify(input){
+    var output = Math.round(input * 1000000)/1000000;
+	return output;
+}
+
+ 
 function  increment_years() {
 	years += 1;
-	yearscounter.innerHTML = years;
+	yearscounter.innerHTML = prettify(years);
 }
 function unlockcontemplate() {
 	if (years >= 10) {
@@ -55,7 +76,7 @@ function unlockcontemplate() {
 }
 function  increment_contemplates() {
 	contemplates += 1 + (0.1*suicides);
-	contemplatescounter.innerHTML = contemplates;
+	contemplatescounter.innerHTML = prettify(contemplates);
 }
 function unlocksuicide() {
 	if (contemplates >= 69) {
@@ -64,13 +85,67 @@ function unlocksuicide() {
 }
 function  increment_suicides() {
 	suicides += 1;
-	suicidescounter.innerHTML = suicides;
+	suicidescounter.innerHTML = prettify(suicides);
 	years = 0;
-	yearscounter.innerHTML = years;
+	yearscounter.innerHTML = prettify(years);
 	contemplates = 0;
-	contemplatescounter.innerHTML = contemplates;
+	contemplatescounter.innerHTML = prettify(contemplates);
 	document.getElementById("contemplatemodule").style.visibility = "hidden";
 	document.getElementById("suicidemodule").style.visibility = "hidden";
+}
+
+
+
+var seconds = 0;
+var yrs = 0;
+var hrs = 0;
+var dys = 0;
+var mns = 0;
+var scs = 0;
+setInterval(function uptime() {
+    seconds += 1;
+    var yrs = Math.floor (seconds / (60*60*24*365));
+	yrscounter.innerHTML = prettify(yrs);
+    var dys = Math.floor(seconds % (60*60*24*365) / (60*60*24));
+	dyscounter.innerHTML = prettify(dys);
+    var hrs = Math.floor(seconds % (60*60*24) / (60*60));
+	hrscounter.innerHTML = prettify(hrs);
+	var mns = Math.floor(seconds % (60*60) / 60);
+	mnscounter.innerHTML = prettify(mns);
+    var scs = Math.floor(seconds % 60);
+	scscounter.innerHTML = prettify(scs);
+}, 1000);
+
+
+
+function save() {
+	var save = {
+		years: years,
+		contemplates: contemplates,
+		suicides: suicides,
+		seconds: seconds,
+		yrs: yrs,
+		dys: dys,
+		hrs: hrs,
+		mns: mns,
+		scs: scs
+	}
+	localStorage.setItem("save",JSON.stringify(save));
+}
+function load() {
+	var savegame = JSON.parse(localStorage.getItem("save"));
+	if (typeof savegame.years !== "undefined") years = savegame.years;
+	if (typeof savegame.contemplates !== "undefined") contemplates = savegame.contemplates;
+	if (typeof savegame.suicides !== "undefined") suicides = savegame.suicides;
+	if (typeof savegame.seconds !== "undefined") suicides = savegame.suicides;
+	if (typeof savegame.yrs !== "undefined") yrs = savegame.yrs;
+	if (typeof savegame.dys !== "undefined") dys = savegame.dys;
+	if (typeof savegame.hrs !== "undefined") hrs = savegame.hrs;
+	if (typeof savegame.mns !== "undefined") mns = savegame.mns;
+	if (typeof savegame.scs !== "undefined") scs = savegame.scs;
+}
+function wipe() {
+	localStorage.removeItem("save")
 }
 </script>
 

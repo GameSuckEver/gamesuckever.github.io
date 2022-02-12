@@ -135,9 +135,14 @@ function save() {
 function load() {
 	var savegame = JSON.parse(localStorage.getItem("save"));
 	if (typeof savegame.years !== "undefined") years = savegame.years;
+	yearscounter.innerHTML = prettify(years);
+	unlockcontemplate()
 	if (typeof savegame.contemplates !== "undefined") contemplates = savegame.contemplates;
+	contemplatescounter.innerHTML = prettify(contemplates);
+	unlocksuicide()
 	if (typeof savegame.suicides !== "undefined") suicides = savegame.suicides;
-	if (typeof savegame.seconds !== "undefined") suicides = savegame.suicides;
+	suicidescounter.innerHTML = prettify(suicides);
+	if (typeof savegame.seconds !== "undefined") seconds = savegame.seconds;
 	if (typeof savegame.yrs !== "undefined") yrs = savegame.yrs;
 	if (typeof savegame.dys !== "undefined") dys = savegame.dys;
 	if (typeof savegame.hrs !== "undefined") hrs = savegame.hrs;
